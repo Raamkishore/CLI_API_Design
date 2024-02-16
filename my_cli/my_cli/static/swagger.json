@@ -1,0 +1,175 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "Several API's are deployed to store, retrieve and download data from SQLite database",
+      "version": "1.0.0",
+      "title": "Data storage and retrieval API",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+  
+   "tags": [
+      {
+        "name": "API",
+        "description": "Development API"
+      }
+    ],
+  
+    "servers": [
+            {
+            "url": "/"
+            }
+        ],
+  
+        "components": {
+            "schemas": {
+                "ProjectId": {
+                    "type": "string",
+                    "description": "A unique identifier for a project"
+                },
+                "QueryString": {
+                    "type": "string",
+                    "description": "A string used for querying the database"
+                }
+            }
+        },
+  
+    "paths": {
+            "/initialize/{project_id}": {
+                "get": {
+                "tags": [
+                    "API"
+                ],
+                "summary": "List and store data in database with project ID",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "Stores all the iElements in the database",
+                        "required": true,
+                        "type": "string",
+                        "schema" : {
+                            "$ref": "#/components/schemas/ProjectId"
+                        }
+                    },
+                    {
+                        "name": "list",
+                        "in": "query",
+                        "description": "Lists all the iElements",
+                        "required": false,
+                        "schema" : {
+                            "type": "string",
+                            "enum": ["True"]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                        "$ref": "#/components/schemas/ProjectId"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                        "$ref": "#/components/schemas/ProjectId"
+                        }
+                }
+                }
+                }
+            },
+
+            "/query_string": {
+                "get": {
+                "tags": [
+                    "API"
+                ],
+                "summary": "Search for a string in database",
+                "parameters": [
+                    {
+                      "name": "search_string",
+                      "in": "query",
+                      "description": "The string to be seached in the database",
+                      "required": true,
+                      "type": "string"
+                    }
+                  ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                        "$ref": "#/components/schemas/QueryString"
+                        }
+                    },
+                    "400": {
+                        "description": "BAD REQUEST, MISSING QUERY PARAMETER",
+                        "schema": {
+                        "$ref": "#/components/schemas/QueryString"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                        "$ref": "#/components/schemas/QueryString"
+                        }
+                }
+                }
+                }
+            },
+
+            "/download_all": {
+                "get": {
+                "tags": [
+                    "API"
+                ],
+                "summary": "Downloads files from the links in the uri column of the database",
+                "requestBody": {
+                "description": "Downloads all the files of a project in a folder"
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                        "$ref": "#/components/schemas/QueryString"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                        "$ref": "#/components/schemas/QueryString"
+                        }
+                }
+                }
+                }
+            },
+
+            "/download_all/status": {
+                "get": {
+                "tags": [
+                    "API"
+                ],
+                "summary": "Displays the status of the download process",
+                "requestBody": {
+                "description": "Shows how many files have been downloaded so far"
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                        "$ref": "#/components/schemas/QueryString"
+                        }
+                    },
+                    "404": {
+                        "description": "NOT FOUND",
+                        "schema": {
+                        "$ref": "#/components/schemas/QueryString"
+                        }
+                }
+                }
+                }
+            }
+        }
+    }
